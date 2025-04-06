@@ -1,0 +1,73 @@
+.lightsout {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    gap: 5px;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.tile {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border: 2px solid #333;
+    transition: background-color 0.2s ease;
+}
+
+.tile.lit {
+    background-color: gold;
+}
+
+.tile.unlit {
+    background-color: #222;
+}
+
+button.back {
+    margin-bottom: 1rem;
+}
+
+.controls {
+    margin: 1rem 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+select {
+    padding: 0.4rem;
+    font-size: 1rem;
+}
+
+.tile.hint {
+    outline: 3px solid #00ffff;
+    box-shadow: 0 0 10px #00ffff;
+}
+
+.status {
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
+
+.tile.animate {
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
