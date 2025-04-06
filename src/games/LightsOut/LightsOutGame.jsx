@@ -1,3 +1,4 @@
+// src/games/LightsOut/LightsOutGame.jsx
 import { useState, useEffect } from "react";
 import "../../styles/LightsOut.css";
 
@@ -14,9 +15,17 @@ function createGrid(size) {
 }
 
 export default function LightsOutGame({ onBack }) {
-    const [grid, setGrid] = useState(createGrid(5));
+    const [difficulty, setDifficulty] = useState("easy");
+    const [size, setSize] = useState(5);
+    const [grid, setGrid] = useState(createGrid(size));
     const [moves, setMoves] = useState(0);
     const [won, setWon] = useState(false);
+
+    useEffect(() => {
+        setGrid(createGrid(size));
+        setMoves(0);
+        setWon(false);
+    }, [size]);
 
     useEffect(() => {
         const isWon = grid.every(row => row.every(cell => !cell));
@@ -31,7 +40,7 @@ export default function LightsOutGame({ onBack }) {
         for (let [dr, dc] of dirs) {
             const nr = r + dr;
             const nc = c + dc;
-            if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
+            if (nr >= 0 && nr < size && nc >= 0 && nc < size) {
                 newGrid[nr][nc] = !newGrid[nr][nc];
             }
         }
@@ -40,15 +49,35 @@ export default function LightsOutGame({ onBack }) {
     };
 
     const newGame = () => {
-        setGrid(createGrid(5));
+        setGrid(createGrid(size));
         setMoves(0);
         setWon(false);
+    };
+
+    const handleDifficultyChange = (e) => {
+        const level = e.target.value;
+        setDifficulty(level);
+        switch (level) {
+            case "medium": setSize(6); break;
+            case "hard": setSize(7); break;
+            default: setSize(5);
+        }
     };
 
     return (
         <div className="lightsout">
             <button onClick={onBack}>← Back</button>
             <h2>💡 Lights Out</h2>
+
+            <div className="lightsout-controls">
+                <label>Difficulty:</label>
+                <select value={difficulty} onChange={handleDifficultyChange}>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+
             <button onClick={newGame}>🔁 New Game</button>
 
             <div className="lightsout-grid">

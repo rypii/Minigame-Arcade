@@ -9,38 +9,66 @@
   margin: auto;
 }
 
-/* Background gradient with animation */
 body {
   margin: 0;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  background-size: 400% 400%;
-  animation: bgShift 20s ease infinite;
+  background-color: #1a0f2e;
+  background-image:
+    radial-gradient(circle at 6px 10px, rgba(212, 127, 255, 0.3) 2px, transparent 0),
+    radial-gradient(circle at 20px 22px, rgba(161, 92, 251, 0.25) 2px, transparent 0),
+    radial-gradient(circle at 30px 4px, rgba(180, 130, 255, 0.2) 2px, transparent 0),
+    radial-gradient(circle at 12px 28px, rgba(200, 110, 255, 0.35) 2px, transparent 0);
+  background-size: 32px 32px;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  image-rendering: pixelated;
+  animation: glowPulse 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 200, 255, 0.2)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
   color: white;
   font-family: 'Press Start 2P', monospace;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: center;
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
 }
 
-@keyframes bgShift {
+@keyframes glowPulse {
   0% {
-    background-position: 0% 50%;
+    background-image:
+      radial-gradient(circle at 6px 10px, rgba(212, 127, 255, 0.15) 2px, transparent 0),
+      radial-gradient(circle at 20px 22px, rgba(161, 92, 251, 0.05) 2px, transparent 0),
+      radial-gradient(circle at 30px 4px, rgba(180, 130, 255, 0.1) 2px, transparent 0),
+      radial-gradient(circle at 12px 28px, rgba(200, 110, 255, 0.1) 2px, transparent 0);
   }
 
-  50% {
-    background-position: 100% 50%;
+  33% {
+    background-image:
+      radial-gradient(circle at 6px 10px, rgba(212, 127, 255, 0.4) 2px, transparent 0),
+      radial-gradient(circle at 20px 22px, rgba(161, 92, 251, 0.15) 2px, transparent 0),
+      radial-gradient(circle at 30px 4px, rgba(180, 130, 255, 0.25) 2px, transparent 0),
+      radial-gradient(circle at 12px 28px, rgba(200, 110, 255, 0.2) 2px, transparent 0);
+  }
+
+  66% {
+    background-image:
+      radial-gradient(circle at 6px 10px, rgba(212, 127, 255, 0.2) 2px, transparent 0),
+      radial-gradient(circle at 20px 22px, rgba(161, 92, 251, 0.3) 2px, transparent 0),
+      radial-gradient(circle at 30px 4px, rgba(180, 130, 255, 0.15) 2px, transparent 0),
+      radial-gradient(circle at 12px 28px, rgba(200, 110, 255, 0.4) 2px, transparent 0);
   }
 
   100% {
-    background-position: 0% 50%;
+    background-image:
+      radial-gradient(circle at 6px 10px, rgba(212, 127, 255, 0.15) 2px, transparent 0),
+      radial-gradient(circle at 20px 22px, rgba(161, 92, 251, 0.05) 2px, transparent 0),
+      radial-gradient(circle at 30px 4px, rgba(180, 130, 255, 0.1) 2px, transparent 0),
+      radial-gradient(circle at 12px 28px, rgba(200, 110, 255, 0.1) 2px, transparent 0);
   }
 }
 
 /* Header title */
 h1 {
-  font-size: 2.5rem;
+  text-align: center;
+  font-size: 2rem;
   margin-bottom: 2rem;
   color: #ffcc00;
   text-shadow: 0 0 8px #ffcc00;

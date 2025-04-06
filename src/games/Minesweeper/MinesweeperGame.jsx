@@ -1,161 +1,198 @@
-// src/games/Minesweeper/MinesweeperGame.jsx
-import { useState, useEffect } from "react";
-import Tile from "./Tile";
+// src/games/MineSweeper/MineSweeperGame.jsx
+import { useState, useEffect, useRef } from "react";
 import "../../styles/Minesweeper.css";
 
-const DIFFICULTIES = {
-    easy: { size: 6, mines: 6 },
-    medium: { size: 10, mines: 10 },
-    hard: { size: 12, mines: 15 },
-};
-
-function createBoard(size, mines) {
-    const board = Array.from({ length: size }, () =>
-        Array.from({ length: size }, () => ({ revealed: false, mine: false, number: 0, flagged: false, explode: false }))
+function createBoard(rows, cols, mines) {
+    const board = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => ({ mine: false, revealed: false, flagged: false, count: 0 }))
     );
 
     let placed = 0;
     while (placed < mines) {
-        const r = Math.floor(Math.random() * size);
-        const c = Math.floor(Math.random() * size);
+        const r = Math.floor(Math.random() * rows);
+        const c = Math.floor(Math.random() * cols);
         if (!board[r][c].mine) {
             board[r][c].mine = true;
             placed++;
         }
     }
 
-    const dirs = [-1, 0, 1];
-    for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-            if (board[r][c].mine) continue;
-            let count = 0;
-            for (let dr of dirs) {
-                for (let dc of dirs) {
-                    if (dr === 0 && dc === 0) continue;
-                    const nr = r + dr;
-                    const nc = c + dc;
-                    if (nr >= 0 && nr < size && nc >= 0 && nc < size && board[nr][nc].mine) {
-                        count++;
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (!board[r][c].mine) {
+                let count = 0;
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        const nr = r + dr;
+                        const nc = c + dc;
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].mine) {
+                            count++;
+                        }
                     }
                 }
+                board[r][c].count = count;
             }
-            board[r][c].number = count;
         }
     }
 
     return board;
 }
 
-function MinesweeperGame({ onBack }) {
-    const [difficulty, setDifficulty] = useState("medium");
-    const { size, mines } = DIFFICULTIES[difficulty];
+export default function MinesweeperGame({ onBack }) {
+    const [difficulty, setDifficulty] = useState("easy");
+    const getSettings = (level) => {
+        switch (level) {
+            case "medium": return { rows: 12, cols: 12, mines: 20 };
+            case "hard": return { rows: 18, cols: 18, mines: 40 };
+            default: return { rows: 9, cols: 9, mines: 10 };
+        }
+    };
 
-    const [board, setBoard] = useState(createBoard(size, mines));
+    const { rows, cols, mines } = getSettings(difficulty);
+    const [board, setBoard] = useState(() => createBoard(rows, cols, mines));
     const [gameOver, setGameOver] = useState(false);
-    const [won, setWon] = useState(false);
+    const [win, setWin] = useState(false);
+    const [startTime, setStartTime] = useState(null);
+    const [timeElapsed, setTimeElapsed] = useState(0);
+    const [score, setScore] = useState(0);
+    const timerRef = useRef(null);
 
     useEffect(() => {
-        resetGame();
-    }, [difficulty]);
+        if (startTime && !gameOver) {
+            timerRef.current = setInterval(() => {
+                setTimeElapsed(Math.floor((Date.now() - startTime) / 1000));
+            }, 1000);
+        }
+        return () => clearInterval(timerRef.current);
+    }, [startTime, gameOver]);
 
-    const revealTile = (r, c) => {
-        if (board[r][c].revealed || board[r][c].flagged || gameOver) return;
+    useEffect(() => {
+        const allClear = board.every(row => row.every(cell => cell.revealed || cell.mine));
+        if (allClear && !gameOver) {
+            setWin(true);
+            setGameOver(true);
+            clearInterval(timerRef.current);
+            setScore(timeElapsed);
+        }
+    }, [board, gameOver, timeElapsed]);
 
-        const newBoard = board.map(row => row.map(tile => ({ ...tile })));
+    const reveal = (r, c) => {
+        if (gameOver || board[r][c].flagged || board[r][c].revealed) return;
+        if (!startTime) setStartTime(Date.now());
 
-        const flood = (r, c) => {
-            if (r < 0 || r >= size || c < 0 || c >= size || newBoard[r][c].revealed || newBoard[r][c].flagged) return;
-            newBoard[r][c].revealed = true;
-            if (newBoard[r][c].number === 0 && !newBoard[r][c].mine) {
-                [-1, 0, 1].forEach(dr => {
-                    [-1, 0, 1].forEach(dc => {
-                        if (dr !== 0 || dc !== 0) flood(r + dr, c + dc);
-                    });
-                });
+        const newBoard = board.map(row => row.map(cell => ({ ...cell })));
+
+        const revealCell = (r, c) => {
+            if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+            const cell = newBoard[r][c];
+            if (cell.revealed || cell.flagged) return;
+            cell.revealed = true;
+            if (cell.count === 0 && !cell.mine) {
+                for (let dr = -1; dr <= 1; dr++) {
+                    for (let dc = -1; dc <= 1; dc++) {
+                        if (dr !== 0 || dc !== 0) revealCell(r + dr, c + dc);
+                    }
+                }
             }
         };
 
         if (newBoard[r][c].mine) {
             newBoard[r][c].revealed = true;
-            newBoard[r][c].explode = true;
-            for (let row of newBoard) {
-                for (let tile of row) {
-                    if (tile.mine) tile.revealed = true;
-                }
-            }
-            setBoard(newBoard);
             setGameOver(true);
+            clearInterval(timerRef.current);
         } else {
-            flood(r, c);
-            setBoard(newBoard);
+            revealCell(r, c);
         }
+
+        setBoard(newBoard);
     };
 
-    const toggleFlag = (e, r, c) => {
+    const flag = (r, c, e) => {
         e.preventDefault();
-        if (board[r][c].revealed || gameOver) return;
-        const newBoard = board.map(row => row.map(tile => ({ ...tile })));
+        if (gameOver || board[r][c].revealed) return;
+        const newBoard = board.map(row => row.map(cell => ({ ...cell })));
         newBoard[r][c].flagged = !newBoard[r][c].flagged;
         setBoard(newBoard);
     };
 
-    useEffect(() => {
-        if (!gameOver) {
-            const total = size * size;
-            const revealed = board.flat().filter(t => t.revealed).length;
-            if (revealed === total - mines) {
-                setWon(true);
-                setGameOver(true);
-            }
-        }
-    }, [board, gameOver, size, mines]);
-
-    const resetGame = () => {
-        setBoard(createBoard(size, mines));
+    const reset = () => {
+        const { rows, cols, mines } = getSettings(difficulty);
+        setBoard(createBoard(rows, cols, mines));
         setGameOver(false);
-        setWon(false);
+        setWin(false);
+        setScore(0);
+        setTimeElapsed(0);
+        setStartTime(null);
+        clearInterval(timerRef.current);
     };
 
-    const flaggedCount = board.flat().filter(t => t.flagged).length;
+    const handleDifficultyChange = (e) => {
+        const level = e.target.value;
+        setDifficulty(level);
+        const { rows, cols, mines } = getSettings(level);
+        setBoard(createBoard(rows, cols, mines));
+        setGameOver(false);
+        setWin(false);
+        setScore(0);
+        setTimeElapsed(0);
+        setStartTime(null);
+        clearInterval(timerRef.current);
+    };
 
     return (
         <div className="minesweeper">
             <button onClick={onBack}>← Back</button>
-            <h2>Minesweeper</h2>
+            <h2>💣 Minesweeper</h2>
 
-            <div className="difficulty">
-                <label>Difficulty: </label>
-                <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
+            <div className="minesweeper-controls">
+                <label>Difficulty:
+                    <select value={difficulty} onChange={handleDifficultyChange}>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </label>
+
+                <button onClick={reset}>🔁 New Game</button>
             </div>
 
-            <div className="status">
-                {gameOver && (won ? "🎉 You Win!" : "💥 Game Over!")}<br />
-                🚩 Flags: {flaggedCount} / {mines}
+            <div className="minesweeper-stats">
+                <p>Time: {timeElapsed}s</p>
+                <p>Score: {score}</p>
             </div>
-
-            <button onClick={resetGame}>🔁 New Game</button>
 
             <div
-                className="grid"
-                style={{ gridTemplateColumns: `repeat(${size}, 40px)` }}
+                className="minesweeper-grid"
+                style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
             >
                 {board.map((row, r) =>
-                    row.map((tile, c) => (
-                        <Tile
-                            key={`${r}-${c}`}
-                            data={tile}
-                            onClick={() => revealTile(r, c)}
-                            onRightClick={(e) => toggleFlag(e, r, c)}
-                        />
-                    ))
+                    row.map((cell, c) => {
+                        const { revealed, mine, flagged, count } = cell;
+                        let className = "minetile";
+                        if (revealed) className += " revealed";
+                        if (revealed && mine) className += " mine";
+                        if (flagged) className += " flagged";
+
+                        return (
+                            <div
+                                key={`${r}-${c}`}
+                                className={className}
+                                onClick={() => reveal(r, c)}
+                                onContextMenu={(e) => flag(r, c, e)}
+                            >
+                                {revealed && mine && "💣"}
+                                {revealed && !mine && count > 0 && count}
+                                {!revealed && flagged && "🚩"}
+                            </div>
+                        );
+                    })
                 )}
+            </div>
+
+            <div className="minesweeper-stats">
+                {gameOver && !win && <h3>💥 You hit a mine!</h3>}
+                {win && <h3>🎉 You cleared the board!</h3>}
             </div>
         </div>
     );
 }
-
-export default MinesweeperGame;
