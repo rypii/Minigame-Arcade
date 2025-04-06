@@ -6,6 +6,7 @@ import LightsOutGame from './games/LightsOut/LightsOutGame';
 import MemoryGame from './games/Memory/MemoryGame';
 import MinesweeperGame from './games/MineSweeper/MineSweeperGame';
 import BlackjackGame from './games/Blackjack/BlackjackGame';
+import TicTacToeGame from './games/TicTacToe/TicTacToeGame';
 
 function App() {
   const [currentGame, setCurrentGame] = useState(null);
@@ -24,6 +25,8 @@ function App() {
         return <MinesweeperGame onBack={() => setCurrentGame(null)} />;
       case 'blackjack':
         return <BlackjackGame onBack={() => setCurrentGame(null)} />;
+      case 'tictactoe':
+        return <TicTacToeGame onBack={() => setCurrentGame(null)} />;
       default:
         return <GameSelector onSelectGame={handleSelectGame} />;
     }

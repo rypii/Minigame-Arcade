@@ -6,6 +6,7 @@ function GameSelector({ onSelectGame }) {
         { id: "memory", name: "Memory Match", emoji: "🧠" },
         { id: "minesweeper", name: "Minesweeper", emoji: "💣" },
         { id: "blackjack", name: "Blackjack", emoji: "♠️" },
+        { id: "tictactoe", name: "TicTacToe", emoji: "❌"}
     ];
 
     return (

@@ -1,0 +1,67 @@
+.tictactoe {
+    text-align: center;
+    padding: 2rem;
+    background: radial-gradient(circle, #222 0%, #111 100%);
+    border-radius: 16px;
+    max-width: 400px;
+    margin: 2rem auto;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+.tictactoe h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #ffcc00;
+    text-shadow: 0 0 4px #ffcc00;
+}
+
+.status {
+    margin: 1rem 0;
+    font-size: 1rem;
+    color: #00ffff;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background-color: #333;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.cell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px #ffaa00;
+}
+
+.reset {
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.7rem;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.reset:hover {
+    background: #0056b3;
+}

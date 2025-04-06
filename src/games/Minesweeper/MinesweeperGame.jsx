@@ -42,8 +42,8 @@ export default function MinesweeperGame({ onBack }) {
     const [difficulty, setDifficulty] = useState("easy");
     const getSettings = (level) => {
         switch (level) {
-            case "medium": return { rows: 12, cols: 12, mines: 20 };
-            case "hard": return { rows: 18, cols: 18, mines: 40 };
+            case "medium": return { rows: 15, cols: 15, mines: 20 };
+            case "hard": return { rows: 20, cols: 20, mines: 40 };
             default: return { rows: 9, cols: 9, mines: 10 };
         }
     };
