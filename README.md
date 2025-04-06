@@ -1,12 +1,30 @@
-# React + Vite
+# 🕹️ Minigame Arcade
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **Minigame Arcade**, a collection of classic and casual browser games built with React to play when you get bored! 🎮
 
-Currently, two official plugins are available:
+## 🧠 Games Included
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 💡 **Lights Out**  
+  Turn off all the lights by flipping tiles. Each tile flips its neighbors too!
 
-## Expanding the ESLint configuration
+- 🧠 **Memory Match**  
+  Match all the pairs!
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 💣 **Minesweeper**  
+  Avoid bombs and flag them to win!
+
+## ✨ Features
+
+- 🎚️ Difficulty levels for each game  
+- 💥 Tile animations and effects  
+- 🚩 Right-click flagging in Minesweeper  
+- ⏱️ Timer and move counters  
+- 🎮 Built with React + Vite
+
+## 📦 Getting Started
+
+```bash
+git clone https://github.com/your-username/minigame-arcade.git
+cd minigame-arcade
+npm install
+npm run dev

@@ -1,34 +1,6 @@
 .lightsout {
     text-align: center;
-    margin-top: 1rem;
-}
-
-.board {
-    display: grid;
-    grid-template-columns: repeat(5, 60px);
-    gap: 5px;
-    justify-content: center;
-    margin-top: 1rem;
-}
-
-.tile {
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    border: 2px solid #333;
-    transition: background-color 0.2s ease;
-}
-
-.tile.lit {
-    background-color: gold;
-}
-
-.tile.unlit {
-    background-color: #222;
-}
-
-button.back {
-    margin-bottom: 1rem;
+    padding: 1rem;
 }
 
 .controls {
@@ -44,18 +16,32 @@ select {
     font-size: 1rem;
 }
 
-.tile.hint {
-    outline: 3px solid #00ffff;
-    box-shadow: 0 0 10px #00ffff;
+.board {
+    display: grid;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
-.status {
-    margin: 0.5rem 0;
-    font-weight: bold;
+.tile {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.tile.lit {
+    background-color: gold;
+    box-shadow: 0 0 8px gold;
+}
+
+.tile.unlit {
+    background-color: #222;
 }
 
 .tile.animate {
-    animation: pulse 0.3s ease;
+    animation: pulse 0.25s ease;
 }
 
 @keyframes pulse {
@@ -70,4 +56,14 @@ select {
     100% {
         transform: scale(1);
     }
+}
+
+.tile.hint {
+    outline: 3px solid cyan;
+    box-shadow: 0 0 10px cyan;
+}
+
+.status {
+    margin: 0.5rem 0;
+    font-weight: bold;
 }

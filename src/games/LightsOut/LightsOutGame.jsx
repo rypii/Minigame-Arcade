@@ -1,3 +1,4 @@
+// src/games/LightsOut/LightsOutGame.jsx
 import { useState, useEffect } from "react";
 import Tile from "./Tile";
 import "../../styles/LightsOut.css";
@@ -84,7 +85,7 @@ function LightsOutGame({ onBack }) {
             </div>
 
             <div className="status">
-                Moves: {moveCount} {won && "| 🎉 You won!"}
+                Moves: {moveCount} {won && "| 🎉 You Win!"}
             </div>
 
             <div
