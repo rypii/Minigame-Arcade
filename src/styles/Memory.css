@@ -1,77 +1,85 @@
+/* src/styles/Memory.css */
 .memory {
     text-align: center;
-    margin-top: 1rem;
+    padding: 1.5rem;
+    color: white;
+    background: radial-gradient(circle, #222 0%, #111 100%);
+    border-radius: 16px;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.grid {
+.memory h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.memory-grid {
     display: grid;
-    grid-template-columns: repeat(4, 60px);
-    gap: 10px;
-    justify-content: center;
-    margin-top: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 1rem;
+    justify-items: center;
+    margin: 2rem 0;
 }
 
-.card {
+.memcard {
     width: 60px;
     height: 60px;
-    perspective: 600px;
+    background: #333;
+    border-radius: 8px;
     cursor: pointer;
-}
-
-.card-inner {
+    perspective: 1000px;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
     position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.5s;
 }
 
-.card.flipped .card-inner {
+.memcard.flipped .inner {
     transform: rotateY(180deg);
 }
 
-.card-front,
-.card-back {
+.memcard.matched {
+    background-color: #4caf50;
+    box-shadow: 0 0 10px #4caf50;
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.front,
+.back {
     position: absolute;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #555;
+    font-size: 1.5rem;
     border-radius: 8px;
 }
 
-.card-front {
-    background: #333;
-    color: white;
+.front {
+    background: #555;
+    color: #fff;
 }
 
-.card-back {
-    background: gold;
+.back {
+    background: white;
     transform: rotateY(180deg);
 }
 
-.card.matched .card-back {
-    background: limegreen;
-    box-shadow: 0 0 10px limegreen;
-}
-
-.win-msg {
-    color: lime;
-    font-size: 1.5rem;
-    margin: 1rem 0;
-}
-
-.new-game {
-    margin: 1rem 0;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.status {
-    margin-bottom: 0.5rem;
+.memory-stats {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #ffd700;
 }

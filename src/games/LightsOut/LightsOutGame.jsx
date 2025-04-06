@@ -1,110 +1,74 @@
-// src/games/LightsOut/LightsOutGame.jsx
 import { useState, useEffect } from "react";
-import Tile from "./Tile";
 import "../../styles/LightsOut.css";
 
-const SIZES = {
-    easy: 3,
-    medium: 5,
-    hard: 7,
-};
-
-function generateBoard(size) {
-    const board = Array.from({ length: size }, () =>
-        Array.from({ length: size }, () => false)
-    );
-
-    const moves = size + Math.floor(Math.random() * size);
-    for (let i = 0; i < moves; i++) {
-        const r = Math.floor(Math.random() * size);
-        const c = Math.floor(Math.random() * size);
-        toggleNeighbors(board, r, c);
-    }
-
-    return board;
-}
-
-function toggleNeighbors(board, r, c) {
-    const size = board.length;
-    const dirs = [[0, 0], [0, 1], [0, -1], [1, 0], [-1, 0]];
-    for (let [dr, dc] of dirs) {
-        const nr = r + dr, nc = c + dc;
-        if (nr >= 0 && nr < size && nc >= 0 && nc < size) {
-            board[nr][nc] = !board[nr][nc];
+function createGrid(size) {
+    const grid = [];
+    for (let r = 0; r < size; r++) {
+        const row = [];
+        for (let c = 0; c < size; c++) {
+            row.push(Math.random() < 0.5);
         }
+        grid.push(row);
     }
+    return grid;
 }
 
-function isSolved(board) {
-    return board.every(row => row.every(cell => !cell));
-}
-
-function LightsOutGame({ onBack }) {
-    const [difficulty, setDifficulty] = useState("medium");
-    const [board, setBoard] = useState(generateBoard(SIZES[difficulty]));
-    const [moveCount, setMoveCount] = useState(0);
+export default function LightsOutGame({ onBack }) {
+    const [grid, setGrid] = useState(createGrid(5));
+    const [moves, setMoves] = useState(0);
     const [won, setWon] = useState(false);
-    const [lastPressed, setLastPressed] = useState(null);
 
     useEffect(() => {
-        handleNewGame();
-    }, [difficulty]);
+        const isWon = grid.every(row => row.every(cell => !cell));
+        setWon(isWon);
+    }, [grid]);
 
-    const handleTileClick = (r, c) => {
-        const newBoard = board.map(row => [...row]);
-        toggleNeighbors(newBoard, r, c);
-        setBoard(newBoard);
-        setMoveCount(moveCount + 1);
-        setLastPressed([r, c]);
-        if (isSolved(newBoard)) setWon(true);
+    const toggle = (r, c) => {
+        const dirs = [
+            [0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]
+        ];
+        const newGrid = grid.map(row => [...row]);
+        for (let [dr, dc] of dirs) {
+            const nr = r + dr;
+            const nc = c + dc;
+            if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
+                newGrid[nr][nc] = !newGrid[nr][nc];
+            }
+        }
+        setGrid(newGrid);
+        setMoves(m => m + 1);
     };
 
-    const handleNewGame = () => {
-        const newBoard = generateBoard(SIZES[difficulty]);
-        setBoard(newBoard);
-        setMoveCount(0);
+    const newGame = () => {
+        setGrid(createGrid(5));
+        setMoves(0);
         setWon(false);
-        setLastPressed(null);
     };
 
     return (
         <div className="lightsout">
-            <button className="back" onClick={onBack}>← Back</button>
-            <h2>Lights Out ({difficulty})</h2>
+            <button onClick={onBack}>← Back</button>
+            <h2>💡 Lights Out</h2>
+            <button onClick={newGame}>🔁 New Game</button>
 
-            <div className="controls">
-                <label>
-                    Difficulty:
-                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
-                        <option value="easy">Easy (3x3)</option>
-                        <option value="medium">Medium (5x5)</option>
-                        <option value="hard">Hard (7x7)</option>
-                    </select>
-                </label>
-                <button onClick={handleNewGame}>🔁 New Game</button>
+            <div className="lightsout-grid">
+                {grid.map((row, r) => (
+                    <div key={r} className="row">
+                        {row.map((lit, c) => (
+                            <div
+                                key={c}
+                                className={`lotile ${lit ? "on" : "off"}`}
+                                onClick={() => toggle(r, c)}
+                            />
+                        ))}
+                    </div>
+                ))}
             </div>
 
-            <div className="status">
-                Moves: {moveCount} {won && "| 🎉 You Win!"}
-            </div>
-
-            <div
-                className="board"
-                style={{ gridTemplateColumns: `repeat(${board.length}, 60px)` }}
-            >
-                {board.map((row, r) =>
-                    row.map((lit, c) => (
-                        <Tile
-                            key={`${r}-${c}`}
-                            lit={lit}
-                            onClick={() => handleTileClick(r, c)}
-                            animate={lastPressed && lastPressed[0] === r && lastPressed[1] === c}
-                        />
-                    ))
-                )}
+            <div className="lightsout-stats">
+                <p>Moves: {moves}</p>
+                {won && <h3>🎉 You turned off all the lights!</h3>}
             </div>
         </div>
     );
 }
-
-export default LightsOutGame;

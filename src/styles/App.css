@@ -1,8 +1,64 @@
-.game-selector {
-  width: 100%;
+/* App container */
+.App {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  margin: auto;
+}
+
+/* Background gradient with animation */
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  background-size: 400% 400%;
+  animation: bgShift 20s ease infinite;
+  color: white;
+  font-family: 'Press Start 2P', monospace;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+}
+
+@keyframes bgShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Header title */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #ffcc00;
+  text-shadow: 0 0 8px #ffcc00;
+}
+
+/* Section title */
+h2 {
+  font-size: 1.5rem;
+  color: #00ffff;
+  margin-bottom: 1.5rem;
+}
+
+/* GameSelector layout */
+.game-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .game-grid {
@@ -10,16 +66,11 @@
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1.5rem;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   justify-content: center;
 }
 
-
-.game-selector h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
+/* Game cards */
 .game-card {
   background: #222;
   border: 2px solid #444;
@@ -39,64 +90,12 @@
   box-shadow: 0 0 10px #ffaa00;
 }
 
-.game-card .emoji {
+.emoji {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
-.game-card .title {
+.title {
   font-weight: bold;
-  font-size: 1.1rem;
-}
-
-body {
-  margin: 0;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  background-size: 400% 400%;
-  animation: bgShift 20s ease infinite;
-  color: white;
-  font-family: 'Press Start 2P', monospace;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  text-align: center;
-}
-
-@keyframes bgShift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin-top: 2rem;
-  color: #ffcc00;
-  text-shadow: 0 0 8px #ffcc00;
-}
-
-h2 {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #00ffff;
-  margin-bottom: 2rem;
-}
-
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1000px;
-  padding: 2rem;
+  font-size: 1rem;
 }

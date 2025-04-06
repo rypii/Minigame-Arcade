@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import './styles/App.css';
-import GameSelector from "./components/GameSelector";
-import LightsOutGame from "./games/LightsOut/LightsOutGame";
-import MemoryGame from "./games/Memory/MemoryGame";
+
+import GameSelector from './components/GameSelector';
+import LightsOutGame from './games/LightsOut/LightsOutGame';
+import MemoryGame from './games/Memory/MemoryGame';
 import MinesweeperGame from './games/MineSweeper/MineSweeperGame';
-
-
+import BlackjackGame from './games/Blackjack/BlackjackGame';
 
 function App() {
   const [currentGame, setCurrentGame] = useState(null);
@@ -16,16 +16,17 @@ function App() {
 
   const renderGame = () => {
     switch (currentGame) {
-      case "lightsout":
+      case 'lightsout':
         return <LightsOutGame onBack={() => setCurrentGame(null)} />;
-      case "memory":
+      case 'memory':
         return <MemoryGame onBack={() => setCurrentGame(null)} />;
-      case "minesweeper":
+      case 'minesweeper':
         return <MinesweeperGame onBack={() => setCurrentGame(null)} />;
+      case 'blackjack':
+        return <BlackjackGame onBack={() => setCurrentGame(null)} />;
       default:
         return <GameSelector onSelectGame={handleSelectGame} />;
     }
-
   };
 
   return (
@@ -34,7 +35,9 @@ function App() {
       {renderGame()}
     </div>
   );
-
 }
 
 export default App;
+
+
+

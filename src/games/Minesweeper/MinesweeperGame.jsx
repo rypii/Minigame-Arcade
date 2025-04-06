@@ -5,8 +5,8 @@ import "../../styles/Minesweeper.css";
 
 const DIFFICULTIES = {
     easy: { size: 6, mines: 6 },
-    medium: { size: 8, mines: 10 },
-    hard: { size: 10, mines: 20 },
+    medium: { size: 10, mines: 10 },
+    hard: { size: 12, mines: 15 },
 };
 
 function createBoard(size, mines) {

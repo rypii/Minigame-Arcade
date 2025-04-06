@@ -1,69 +1,69 @@
+/* src/styles/LightsOut.css */
 .lightsout {
     text-align: center;
-    padding: 1rem;
+    padding: 1.5rem;
+    color: white;
+    background: radial-gradient(circle, #222 0%, #111 100%);
+    border-radius: 16px;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.controls {
-    margin: 1rem 0;
+.lightsout h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.lightsout-grid {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem auto;
+    max-width: fit-content;
 }
 
-select {
-    padding: 0.4rem;
-    font-size: 1rem;
+.row {
+    display: flex;
+    gap: 0.5rem;
 }
 
-.board {
-    display: grid;
-    gap: 5px;
-    justify-content: center;
-    margin-top: 1rem;
-}
-
-.tile {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
+.lotile {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
-.tile.lit {
-    background-color: gold;
-    box-shadow: 0 0 8px gold;
+.lotile.on {
+    background-color: #ffcc00;
+    box-shadow: 0 0 10px #ffcc00;
 }
 
-.tile.unlit {
+.lotile.off {
     background-color: #222;
+    box-shadow: inset 0 0 5px #000;
 }
 
-.tile.animate {
-    animation: pulse 0.25s ease;
+.lightsout button {
+    margin: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+.lightsout button:hover {
+    background-color: #0056b3;
 }
 
-.tile.hint {
-    outline: 3px solid cyan;
-    box-shadow: 0 0 10px cyan;
-}
-
-.status {
-    margin: 0.5rem 0;
-    font-weight: bold;
+.lightsout-stats {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #ffd700;
 }
