@@ -20,19 +20,27 @@ export default function LightsOutGame({ onBack }) {
     const [grid, setGrid] = useState(createGrid(size));
     const [moves, setMoves] = useState(0);
     const [won, setWon] = useState(false);
+    const [score, setScore] = useState(0);
 
     useEffect(() => {
         setGrid(createGrid(size));
         setMoves(0);
         setWon(false);
+        setScore(0);
     }, [size]);
 
     useEffect(() => {
         const isWon = grid.every(row => row.every(cell => !cell));
-        setWon(isWon);
-    }, [grid]);
+        if (isWon && !won) {
+            setWon(true);
+            const base = difficulty === "easy" ? 1000 : difficulty === "medium" ? 1500 : 2000;
+            const calcScore = Math.max(100, base - moves * 20);
+            setScore(calcScore);
+        }
+    }, [grid, won, moves, difficulty]);
 
     const toggle = (r, c) => {
+        if (won) return;
         const dirs = [
             [0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]
         ];
@@ -52,6 +60,7 @@ export default function LightsOutGame({ onBack }) {
         setGrid(createGrid(size));
         setMoves(0);
         setWon(false);
+        setScore(0);
     };
 
     const handleDifficultyChange = (e) => {
@@ -97,6 +106,7 @@ export default function LightsOutGame({ onBack }) {
             <div className="lightsout-stats">
                 <p>Moves: {moves}</p>
                 {won && <h3>🎉 You turned off all the lights!</h3>}
+                {won && <p>Score: {score}</p>}
             </div>
         </div>
     );

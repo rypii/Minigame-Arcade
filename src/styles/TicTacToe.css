@@ -49,6 +49,19 @@
     box-shadow: 0 0 8px #ffaa00;
 }
 
+.mode-select select, option {
+    font-family: 'Press Start 2P', monospace;
+    text-align: center;
+    padding: 0.4rem 0.1rem;
+    font-size: 0.85rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
 .reset {
     margin-top: 1rem;
     padding: 0.6rem 1rem;

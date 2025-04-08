@@ -23,7 +23,7 @@ body {
   background-repeat: repeat;
   background-attachment: fixed;
   image-rendering: pixelated;
-  animation: glowPulse 1s ease-in-out infinite;
+  animation: glowPulse 2s ease-in-out infinite;
   filter: drop-shadow(0 0 6px rgba(255, 200, 255, 0.2)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
   color: white;
   font-family: 'Press Start 2P', monospace;
