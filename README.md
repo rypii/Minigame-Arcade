@@ -13,13 +13,20 @@ Welcome to the **Minigame Arcade**, a collection of classic and casual browser g
 - 💣 **Minesweeper**  
   Avoid bombs and flag them to win!
 
-## ✨ Features
+- ♠️ **Blackjack**
+  Go against the dealer and get to 21!
 
-- 🎚️ Difficulty levels for each game  
-- 💥 Tile animations and effects  
-- 🚩 Right-click flagging in Minesweeper  
-- ⏱️ Timer and move counters  
-- 🎮 Built with React + Vite
+- ❌ **TicTacToe**
+  Play with another person **or** go against a bot!
+
+
+## ✨ Features
+ 
+- Tile & background animations and effects  
+- Right-click flagging in Minesweeper  
+- Timer and move counters  
+- Two player mode **and** AI mode
+- Built with React + Vite
 
 ## 📦 Getting Started
 
